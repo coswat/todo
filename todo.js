@@ -14,6 +14,7 @@ deleteAll.addEventListener("click", (e) => {
 todoList.addEventListener("click", (e) => {
   if (e.target.tagName == "LI") {
     e.target.classList.toggle("completed");
+    saveToStorage();
   }
   if (e.target.tagName == "SPAN") {
     removeTask(e);
@@ -41,11 +42,13 @@ function createTask(task) {
   // appending
   li.appendChild(btn);
   todoList.appendChild(li);
+  saveToStorage();
 }
 
 function removeTask(node) {
   let parentNode = node.target.parentNode;
   parentNode.remove();
+  saveToStorage();
 }
 
 function removeAll() {
@@ -57,4 +60,17 @@ function removeAll() {
     let parentNode = e.parentNode;
     parentNode.remove();
   });
+  saveToStorage();
 }
+
+function saveToStorage() {
+  let contents = todoList.innerHTML;
+  localStorage.setItem("data", contents);
+}
+
+function showContents() {
+  todoList.innerHTML = localStorage.getItem("data");
+}
+
+// show the contents from local storage
+showContents();
